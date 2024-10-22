@@ -1,9 +1,12 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
-  
-  let users = [];
+
+  let users: any[] = [];
   let loading = true;
-  let error = null;
+  /**
+   * @type {null}
+   */
+  let error:any = null;
 
   onMount(async () => {
     try {
@@ -11,7 +14,7 @@
         method: 'GET',
         mode: 'cors',
         headers: {
-          "Content-Type": "application/json", // 指定したい場合
+          'Content-Type': 'application/json', // 指定したい場合
         },
       }); // Express APIのURL
       console.log(response);
@@ -19,7 +22,7 @@
         throw new Error('Network response was not ok');
       }
       users = await response.json();
-      console.log(users);   
+      console.log(users);
     } catch (err) {
       error = err.message;
     } finally {
@@ -29,8 +32,8 @@
 </script>
 
 <main>
-  <h1>Users List</h1>
-
+  <h1 class="text-3xl font-bold underline">Users List</h1>
+  <li><a href="/about">About</a></li>
   {#if loading}
     <p>Loading...</p>
   {:else if error}
@@ -40,7 +43,8 @@
   {:else}
     <ul>
       {#each users as user}
-        <li>{user.user_id}</li> <!-- 必要なプロパティを表示 -->
+        <li>{user.user_id}</li>
+        <!-- 必要なプロパティを表示 -->
       {/each}
     </ul>
   {/if}
